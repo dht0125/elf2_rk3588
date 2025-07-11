@@ -1,0 +1,743 @@
+<script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.js"></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能交通监控与IoT控制系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* 视频流部分 */
+        .video-section {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .video-stream {
+            max-width: 100%;
+            height: auto;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* IoT设备控制 */
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .device-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .device-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .device-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .device-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .device-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #667eea;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .status-online {
+            background-color: #28a745;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+        }
+
+        .status-offline {
+            background-color: #dc3545;
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+        }
+
+        /* 按钮样式 */
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .device-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* 连接状态 */
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .connection-text {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 智能交通监控与IoT控制系统</h1>
+            <p>实时车辆检测、视频流传输与设备控制一体化平台</p>
+            <div class="connection-status">
+                <span class="status-indicator" id="main-status-indicator"></span>
+                <span class="connection-text" id="main-status-text">系统状态检测中...</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- 视频流部分 -->
+            <div class="section video-section">
+                <h2>🎥 实时视频监控</h2>
+                <div class="video-container">
+                    <img src="/video_stream" class="video-stream" alt="实时视频流" id="video-stream">
+                    <div class="video-overlay" id="video-overlay">
+                        <div>🚗 当前车辆: <span id="overlay-car-count">0</span></div>
+                        <div>📊 检测FPS: <span id="overlay-fps">0.0</span></div>
+                        <div>⚡ 处理时间: <span id="overlay-process-time">0.0</span>ms</div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="current-cars">0</div>
+                        <div class="stat-label">当前车辆数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-detections">0</div>
+                        <div class="stat-label">总检测次数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="traffic-density">0.0</div>
+                        <div class="stat-label">交通密度</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="processing-fps">0.0</div>
+                        <div class="stat-label">处理FPS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="ai-process-time">0.0</div>
+                        <div class="stat-label">AI处理时间(ms)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="system-status">离线</div>
+                        <div class="stat-label">系统状态</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IoT设备控制部分 -->
+            <div class="section">
+                <h2>🏠 IoT设备控制</h2>
+                <div class="device-grid">
+                    <div class="device-card">
+                        <div class="device-header">
+                            <div class="device-icon">🌡️</div>
+                            <div class="device-name">温度传感器</div>
+                        </div>
+                        <div class="device-value"><span id="temperature">--</span>°C</div>
+                        <div class="stat-label">环境温度</div>
+                    </div>
+
+                    <div class="device-card">
+                        <div class="device-header">
+                            <div class="device-icon">💧</div>
+                            <div class="device-name">湿度传感器</div>
+                        </div>
+                        <div class="device-value"><span id="humidity">--</span>%</div>
+                        <div class="stat-label">环境湿度</div>
+                    </div>
+
+                    <div class="device-card">
+                        <div class="device-header">
+                            <div class="device-icon">⚡</div>
+                            <div class="device-name">电压监测</div>
+                        </div>
+                        <div class="device-value"><span id="voltage">--</span>V</div>
+                        <div class="stat-label">供电电压</div>
+                    </div>
+
+                    <div class="device-card">
+                        <div class="device-header">
+                            <div class="device-icon">💡</div>
+                            <div class="device-name">LED控制</div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                LED 1 
+                                <span class="status-indicator" id="led1-status"></span>
+                            </label>
+                            <div class="switch-container">
+                                <label class="switch">
+                                    <input type="checkbox" id="led1-switch">
+                                    <span class="slider"></span>
+                                </label>
+                                <span id="led1-text">关闭</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                LED 2 
+                                <span class="status-indicator" id="led2-status"></span>
+                            </label>
+                            <div class="switch-container">
+                                <label class="switch">
+                                    <input type="checkbox" id="led2-switch">
+                                    <span class="slider"></span>
+                                </label>
+                                <span id="led2-text">关闭</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统控制部分 -->
+            <div class="section">
+                <h2>⚙️ 系统控制</h2>
+                <div style="text-align: center;">
+                    <button class="btn" onclick="refreshAllData()">🔄 刷新所有数据</button>
+                    <button class="btn btn-success" onclick="resetVideoStats()">📊 重置视频统计</button>
+                    <button class="btn btn-danger" onclick="emergencyStop()">🚨 紧急停止</button>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h3>📈 系统监控</h3>
+                    <div id="system-log" style="background: #f1f1f1; padding: 15px; border-radius: 8px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 0.9em;">
+                        <div>系统日志初始化...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let isSystemOnline = false;
+        let videoDataUpdateInterval;
+        let iotDataUpdateInterval;
+        let logContainer;
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            logContainer = document.getElementById('system-log');
+            addLog('系统初始化完成');
+            
+            // 设置LED开关事件
+            setupLEDControls();
+            
+            // 开始数据更新
+            startDataUpdates();
+            
+            addLog('开始数据更新循环');
+        });
+
+        function addLog(message) {
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            // 保持最多100条日志
+            if (logContainer.children.length > 100) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+
+        function setupLEDControls() {
+            const led1Switch = document.getElementById('led1-switch');
+            const led2Switch = document.getElementById('led2-switch');
+            
+            led1Switch.addEventListener('change', function() {
+                controlLED('LEDSwitch', this.checked ? 1 : 0, 'LED1');
+            });
+            
+            led2Switch.addEventListener('change', function() {
+                controlLED('LEDSwitch2', this.checked ? 1 : 0, 'LED2');
+            });
+        }
+
+        function controlLED(name, state, ledName) {
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('state', state);
+            
+            fetch('/set_data', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'True') {
+                    addLog(`✅ ${ledName} ${state ? '开启' : '关闭'}成功`);
+                    updateLEDStatus(ledName.toLowerCase(), state);
+                } else {
+                    addLog(`❌ ${ledName} 控制失败`);
+                }
+            })
+            .catch(error => {
+                addLog(`❌ ${ledName} 控制错误: ${error}`);
+            });
+        }
+
+        function updateLEDStatus(ledId, state) {
+            const statusIndicator = document.getElementById(`${ledId}-status`);
+            const statusText = document.getElementById(`${ledId}-text`);
+            
+            if (state) {
+                statusIndicator.className = 'status-indicator status-online';
+                statusText.textContent = '开启';
+            } else {
+                statusIndicator.className = 'status-indicator status-offline';
+                statusText.textContent = '关闭';
+            }
+        }
+
+        function startDataUpdates() {
+            // 更新视频数据
+            videoDataUpdateInterval = setInterval(updateVideoData, 1000);
+            
+            // 更新IoT设备数据
+            iotDataUpdateInterval = setInterval(updateIoTData, 2000);
+            
+            // 立即更新一次
+            updateVideoData();
+            updateIoTData();
+        }
+
+        function updateVideoData() {
+            fetch('/get_detection_data')
+                .then(response => response.json())
+                .then(data => {
+                    // 更新视频统计数据
+                    document.getElementById('current-cars').textContent = data.car_count || 0;
+                    document.getElementById('total-detections').textContent = data.total_detections || 0;
+                    document.getElementById('traffic-density').textContent = (data.traffic_density || 0).toFixed(2);
+                    document.getElementById('processing-fps').textContent = (data.frame_fps || 0).toFixed(1);
+                    document.getElementById('ai-process-time').textContent = (data.ai_process_time || 0).toFixed(1);
+                    
+                    // 更新视频叠加层
+                    document.getElementById('overlay-car-count').textContent = data.car_count || 0;
+                    document.getElementById('overlay-fps').textContent = (data.frame_fps || 0).toFixed(1);
+                    document.getElementById('overlay-process-time').textContent = (data.ai_process_time || 0).toFixed(1);
+                    
+                    // 更新系统状态
+                    const currentTime = Date.now();
+                    const dataTime = (data.timestamp || 0) * 1000;
+                    const isOnline = currentTime - dataTime < 10000; // 10秒内为在线
+                    
+                    const statusElement = document.getElementById('system-status');
+                    const mainStatusIndicator = document.getElementById('main-status-indicator');
+                    const mainStatusText = document.getElementById('main-status-text');
+                    
+                    if (isOnline) {
+                        statusElement.textContent = '在线';
+                        statusElement.style.color = '#28a745';
+                        mainStatusIndicator.className = 'status-indicator status-online';
+                        mainStatusText.textContent = '视频检测系统在线';
+                        
+                        if (!isSystemOnline) {
+                            addLog('🟢 视频检测系统已连接');
+                            isSystemOnline = true;
+                        }
+                    } else {
+                        statusElement.textContent = '离线';
+                        statusElement.style.color = '#dc3545';
+                        mainStatusIndicator.className = 'status-indicator status-offline';
+                        mainStatusText.textContent = '视频检测系统离线';
+                        
+                        if (isSystemOnline) {
+                            addLog('🔴 视频检测系统连接断开');
+                            isSystemOnline = false;
+                        }
+                    }
+                })
+                .catch(error => {
+                    if (isSystemOnline) {
+                        addLog('❌ 视频数据获取失败: ' + error);
+                    }
+                    
+                    document.getElementById('system-status').textContent = '错误';
+                    document.getElementById('system-status').style.color = '#dc3545';
+                    document.getElementById('main-status-indicator').className = 'status-indicator status-offline';
+                    document.getElementById('main-status-text').textContent = '连接错误';
+                    isSystemOnline = false;
+                });
+        }
+
+        function updateIoTData() {
+            fetch('/get_data')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    // 检查响应内容类型
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        console.warn('⚠️ 响应不是JSON格式:', contentType);
+                        return response.text().then(text => {
+                            console.log('📄 响应内容:', text.substring(0, 200) + '...');
+                            throw new Error('服务器返回非JSON数据，可能是HTML错误页面');
+                        });
+                    }
+                    
+                    return response.json();
+                })
+                .then(data => {
+                    // 检查数据是否有效
+                    if (!data || typeof data !== 'object') {
+                        throw new Error('无效的JSON数据');
+                    }
+                    
+                    // 检查是否有错误
+                    if (data.status === 'error' || data.status === 'offline') {
+                        addLog('❌ IoT数据获取失败: ' + (data.error || '设备离线'));
+                        // 显示默认值
+                        document.getElementById('temperature').textContent = '--';
+                        document.getElementById('humidity').textContent = '--';
+                        document.getElementById('voltage').textContent = '--';
+                        return;
+                    }
+                    
+                    // 更新传感器数据
+                    document.getElementById('temperature').textContent = 
+                        (data.temp !== undefined && data.temp !== null) ? data.temp : '--';
+                    document.getElementById('humidity').textContent = 
+                        (data.humi !== undefined && data.humi !== null) ? data.humi : '--';
+                    document.getElementById('voltage').textContent = 
+                        (data.volt !== undefined && data.volt !== null) ? data.volt : '--';
+                    
+                    // 更新LED状态
+                    const led1State = data.led1 || 0;
+                    const led2State = data.led2 || 0;
+                    
+                    document.getElementById('led1-switch').checked = led1State === 1;
+                    document.getElementById('led2-switch').checked = led2State === 1;
+                    
+                    updateLEDStatus('led1', led1State);
+                    updateLEDStatus('led2', led2State);
+                    
+                    // 如果之前有错误，现在成功了，记录一下
+                    if (data.status === 'online') {
+                        console.log('✅ IoT数据更新成功');
+                    }
+                })
+                .catch(error => {
+                    // 详细的错误记录
+                    console.error('❌ IoT数据获取错误:', error);
+                    addLog('❌ IoT数据获取失败: ' + error.message);
+                    
+                    // 显示默认值
+                    document.getElementById('temperature').textContent = '--';
+                    document.getElementById('humidity').textContent = '--';
+                    document.getElementById('voltage').textContent = '--';
+                });
+        }
+
+        function refreshAllData() {
+            addLog('🔄 刷新所有数据');
+            updateVideoData();
+            updateIoTData();
+        }
+
+        function resetVideoStats() {
+            if (confirm('确定要重置视频统计数据吗？')) {
+                fetch('/reset_stats', {method: 'POST'})
+                    .then(response => response.json())
+                    .then(data => {
+                        addLog('📊 视频统计数据已重置');
+                        updateVideoData();
+                    })
+                    .catch(error => {
+                        addLog('❌ 重置失败: ' + error);
+                    });
+            }
+        }
+
+        function emergencyStop() {
+            if (confirm('确定要执行紧急停止吗？这将关闭所有LED并停止系统监控。')) {
+                // 关闭所有LED
+                controlLED('LEDSwitch', 0, 'LED1');
+                controlLED('LEDSwitch2', 0, 'LED2');
+                
+                // 停止数据更新
+                clearInterval(videoDataUpdateInterval);
+                clearInterval(iotDataUpdateInterval);
+                
+                addLog('🚨 紧急停止执行完成');
+                
+                // 5秒后重新启动监控
+                setTimeout(() => {
+                    addLog('🔄 重新启动系统监控');
+                    startDataUpdates();
+                }, 5000);
+            }
+        }
+
+        // 页面卸载时清理定时器
+        window.addEventListener('beforeunload', function() {
+            if (videoDataUpdateInterval) clearInterval(videoDataUpdateInterval);
+            if (iotDataUpdateInterval) clearInterval(iotDataUpdateInterval);
+        });
+    </script>
+</body>
+</html> 

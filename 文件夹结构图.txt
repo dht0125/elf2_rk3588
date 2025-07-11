@@ -1,0 +1,268 @@
+ELFboard_Traffic_recoginezation_system/
+├── board/
+│   ├── MQTT/
+│   │   ├── components/
+│   │   │   ├── cJSON/
+│   │   │   │   ├── cJSON.c
+│   │   │   │   └── cJSON.h
+│   │   │   └── data-model/
+│   │   │       ├── aiot_dm_api.c
+│   │   │       ├── aiot_dm_api.h
+│   │   │       ├── dm_private.h
+│   │   │       └── README.md
+│   │   ├── core/
+│   │   │   ├── aiot_mqtt_api.c
+│   │   │   ├── aiot_mqtt_api.h
+│   │   │   ├── aiot_state_api.c
+│   │   │   ├── aiot_state_api.h
+│   │   │   ├── aiot_sysdep_api.h
+│   │   │   ├── README.md
+│   │   │   ├── sysdep/
+│   │   │   │   ├── core_adapter.c
+│   │   │   │   ├── core_adapter.h
+│   │   │   │   ├── core_stdinc.h
+│   │   │   │   ├── core_sysdep.c
+│   │   │   │   └── core_sysdep.h
+│   │   │   └── utils/
+│   │   │       ├── core_auth.c
+│   │   │       ├── core_auth.h
+│   │   │       ├── core_diag.c
+│   │   │       ├── core_diag.h
+│   │   │       ├── core_global.c
+│   │   │       ├── core_global.h
+│   │   │       ├── core_list.h
+│   │   │       ├── core_log.c
+│   │   │       ├── core_log.h
+│   │   │       ├── core_mqtt.h
+│   │   │       ├── core_sha256.c
+│   │   │       ├── core_sha256.h
+│   │   │       ├── core_string.c
+│   │   │       └── core_string.h
+│   │   ├── demos/
+│   │   │   ├── control copy.c
+│   │   │   ├── control copy.h
+│   │   │   ├── control.c
+│   │   │   ├── control.h
+│   │   │   ├── data_model_basic_demo copy.c
+│   │   │   └── data_model_basic_demo.c
+│   │   ├── external/
+│   │   │   ├── ali_ca_cert.c
+│   │   │   ├── mbedtls/
+│   │   │   │   ├── include/
+│   │   │   │   │   └── mbedtls/
+│   │   │   │   │       ├── aes.h
+│   │   │   │   │       ├── asn1.h
+│   │   │   │   │       ├── base64.h
+│   │   │   │   │       ├── bignum.h
+│   │   │   │   │       ├── bn_mul.h
+│   │   │   │   │       ├── check_config.h
+│   │   │   │   │       ├── cipher_internal.h
+│   │   │   │   │       ├── cipher.h
+│   │   │   │   │       ├── config.h
+│   │   │   │   │       ├── ctr_drbg.h
+│   │   │   │   │       ├── debug.h
+│   │   │   │   │       ├── des.h
+│   │   │   │   │       ├── ecp.h
+│   │   │   │   │       ├── entropy_poll.h
+│   │   │   │   │       ├── entropy.h
+│   │   │   │   │       ├── error.h
+│   │   │   │   │       ├── md_internal.h
+│   │   │   │   │       ├── md.h
+│   │   │   │   │       ├── md5.h
+│   │   │   │   │       ├── net_sockets.h
+│   │   │   │   │       ├── net.h
+│   │   │   │   │       ├── oid.h
+│   │   │   │   │       ├── pem.h
+│   │   │   │   │       ├── pk_internal.h
+│   │   │   │   │       ├── pk.h
+│   │   │   │   │       ├── platform_util.h
+│   │   │   │   │       ├── platform.h
+│   │   │   │   │       ├── rsa_internal.h
+│   │   │   │   │       ├── rsa.h
+│   │   │   │   │       ├── sha1.h
+│   │   │   │   │       ├── sha256.h
+│   │   │   │   │       ├── sha512.h
+│   │   │   │   │       ├── ssl_ciphersuites.h
+│   │   │   │   │       ├── ssl_cookie.h
+│   │   │   │   │       ├── ssl_internal.h
+│   │   │   │   │       ├── ssl.h
+│   │   │   │   │       ├── threading.h
+│   │   │   │   │       ├── timing.h
+│   │   │   │   │       ├── x509_crl.h
+│   │   │   │   │       ├── x509_crt.h
+│   │   │   │   │       └── x509.h
+│   │   │   │   └── library/
+│   │   │   │       ├── aes.c
+│   │   │   │       ├── asn1parse.c
+│   │   │   │       ├── base64.c
+│   │   │   │       ├── bignum.c
+│   │   │   │       ├── cipher_wrap.c
+│   │   │   │       ├── cipher.c
+│   │   │   │       ├── ctr_drbg.c
+│   │   │   │       ├── debug.c
+│   │   │   │       ├── entropy.c
+│   │   │   │       ├── error.c
+│   │   │   │       ├── md_wrap.c
+│   │   │   │       ├── md.c
+│   │   │   │       ├── oid.c
+│   │   │   │       ├── pem.c
+│   │   │   │       ├── pk_wrap.c
+│   │   │   │       ├── pk.c
+│   │   │   │       ├── pkparse.c
+│   │   │   │       ├── platform_util.c
+│   │   │   │       ├── platform.c
+│   │   │   │       ├── rsa_internal.c
+│   │   │   │       ├── rsa.c
+│   │   │   │       ├── sha1.c
+│   │   │   │       ├── sha256.c
+│   │   │   │       ├── sha512.c
+│   │   │   │       ├── ssl_ciphersuites.c
+│   │   │   │       ├── ssl_cli.c
+│   │   │   │       ├── ssl_cookie.c
+│   │   │   │       ├── ssl_tls.c
+│   │   │   │       ├── x509_crt.c
+│   │   │   │       └── x509.c
+│   │   │   └── README.md
+│   │   ├── LICENSE
+│   │   ├── Makefile
+│   │   ├── output/
+│   │   │   ├── components/
+│   │   │   │   ├── cJSON/
+│   │   │   │   └── data-model/
+│   │   │   ├── core/
+│   │   │   │   ├── sysdep/
+│   │   │   │   └── utils/
+│   │   │   ├── data-model-basic-demo
+│   │   │   ├── external/
+│   │   │   │   └── mbedtls/
+│   │   │   │       └── library/
+│   │   │   ├── include/
+│   │   │   │   ├── aiot_dm_api.h
+│   │   │   │   ├── aiot_mqtt_api.h
+│   │   │   │   ├── aiot_state_api.h
+│   │   │   │   └── aiot_sysdep_api.h
+│   │   │   ├── lib/
+│   │   │   └── portfiles/
+│   │   │       └── aiot_port/
+│   │   ├── portfiles/
+│   │   │   └── aiot_port/
+│   │   │       └── posix_port.c
+│   │   └── README.md
+├── client/
+│   ├── flask_server copy.py
+│   ├── flask_server.py
+│   ├── get_instance_id.py
+│   ├── requirements.txt
+│   └── templates/
+│       ├── css/
+│       │   ├── plugins.css
+│       │   └── style.css
+│       ├── index_enhanced.html
+│       ├── index.html
+│       └── index2.html
+├── img/
+│   └── data_model.png
+├── LICENSE
+├── MultiCarDetection-main-yolov5 (1)/
+│   ├── car_rk3588_zh.rknn
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── common.py
+│   │   ├── experimental.py
+│   │   ├── hub/
+│   │   │   ├── anchors.yaml
+│   │   │   ├── yolov3-spp.yaml
+│   │   │   ├── yolov3-tiny.yaml
+│   │   │   ├── yolov3.yaml
+│   │   │   ├── yolov5-bifpn.yaml
+│   │   │   ├── yolov5-fpn.yaml
+│   │   │   ├── yolov5-p2.yaml
+│   │   │   ├── yolov5-p34.yaml
+│   │   │   ├── yolov5-p6.yaml
+│   │   │   ├── yolov5-p7.yaml
+│   │   │   ├── yolov5-panet.yaml
+│   │   │   ├── yolov5l6.yaml
+│   │   │   ├── yolov5m6.yaml
+│   │   │   ├── yolov5n6.yaml
+│   │   │   ├── yolov5s-ghost.yaml
+│   │   │   ├── yolov5s-LeakyReLU.yaml
+│   │   │   ├── yolov5s-transformer.yaml
+│   │   │   ├── yolov5s6.yaml
+│   │   │   └── yolov5x6.yaml
+│   │   ├── segment/
+│   │   │   ├── yolov5l-seg.yaml
+│   │   │   ├── yolov5m-seg.yaml
+│   │   │   ├── yolov5n-seg.yaml
+│   │   │   ├── yolov5s-seg.yaml
+│   │   │   └── yolov5x-seg.yaml
+│   │   ├── tf.py
+│   │   ├── yolo.py
+│   │   ├── yolov5l.yaml
+│   │   ├── yolov5m.yaml
+│   │   ├── yolov5n.yaml
+│   │   ├── yolov5s.yaml
+│   │   └── yolov5x.yaml
+│   ├── output/
+│   │   ├── output.mp4
+│   │   └── readme
+│   ├── real_time_car_detection.py
+│   ├── test_rknnlite.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── activations.py
+│       ├── augmentations.py
+│       ├── autoanchor.py
+│       ├── autobatch.py
+│       ├── aws/
+│       │   ├── __init__.py
+│       │   ├── mime.sh
+│       │   ├── resume.py
+│       │   └── userdata.sh
+│       ├── callbacks.py
+│       ├── dataloaders.py
+│       ├── docker/
+│       │   ├── Dockerfile
+│       │   ├── Dockerfile-arm64
+│       │   └── Dockerfile-cpu
+│       ├── downloads.py
+│       ├── flask_rest_api/
+│       │   ├── example_request.py
+│       │   ├── README.md
+│       │   └── restapi.py
+│       ├── general.py
+│       ├── google_app_engine/
+│       │   ├── additional_requirements.txt
+│       │   ├── app.yaml
+│       │   └── Dockerfile
+│       ├── loggers/
+│       │   ├── __init__.py
+│       │   ├── clearml/
+│       │   │   ├── __init__.py
+│       │   │   ├── clearml_utils.py
+│       │   │   ├── hpo.py
+│       │   │   └── README.md
+│       │   ├── comet/
+│       │   │   ├── __init__.py
+│       │   │   ├── comet_utils.py
+│       │   │   ├── hpo.py
+│       │   │   ├── optimizer_config.json
+│       │   │   └── README.md
+│       │   ├── wandb/
+│       │   │   ├── __init__.py
+│       │   │   └── wandb_utils.py
+│       ├── loss.py
+│       ├── metrics.py
+│       ├── plots.py
+│       ├── segment/
+│       │   ├── __init__.py
+│       │   ├── augmentations.py
+│       │   ├── dataloaders.py
+│       │   ├── general.py
+│       │   ├── loss.py
+│       │   ├── metrics.py
+│       │   └── plots.py
+│       ├── torch_utils.py
+│       └── triton.py
+│   ├── yolov5s_common.rknn
+│   └── yolov5s_rk3588.rknn
+├── README.md 

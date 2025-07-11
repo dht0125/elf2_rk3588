@@ -1,0 +1,86 @@
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# === 项目定制化忽略规则 ===
+# Python缓存和虚拟环境
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.venv
+venv/
+ENV/
+
+# 日志和临时文件
+*.log
+*.swp
+*.swo
+*.tmp
+.DS_Store
+Thumbs.db
+
+# 输出、模型、视频等大文件
+output/
+*.rknn
+*.mp4
+
+# IDE相关
+.vscode/
+.idea/
+*.code-workspace
+
+# 其他
+*.bak
+
+# 不要忽略源码、配置、文档等重要文件

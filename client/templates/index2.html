@@ -1,0 +1,410 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>基于ELFboard的远程监测系统</title>
+</head>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Roboto, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Jhenghei", sans-serif;
+    }
+
+    .panel {
+        color: rgb(51, 51, 51);
+        font-weight: 100;
+    }
+
+    .logo path {
+        pointer-events: none;
+        fill: none;
+        stroke-linecap: round;
+        stroke-width: 7;
+        stroke: rgb(255, 255, 255);
+    }
+
+    .wechat-group img {
+        max-width: 220px;
+        height: auto;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        margin-top: 0px;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-left: auto;
+        width: 100%;
+    }
+
+    .welcome-img img {
+        width: 100%;
+    }
+
+    .bg-gradient-primary {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .htmlpage-row {
+        display: table;
+        padding-top: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        width: 100%;
+    }
+
+    .htmlpage-cell {
+        width: 8%;
+        display: table-cell;
+        height: 75px;
+    }
+
+    .c4166 {
+        padding: 10px;
+    }
+
+    .c4247 {
+        padding: 10px;
+    }
+
+    .c4339 {
+        padding: 10px;
+    }
+
+    .c4420 {
+        padding: 10px;
+    }
+
+    .c4501 {
+        padding: 10px;
+    }
+
+    .c4582 {
+        padding: 10px;
+    }
+
+    .c6485 {
+        padding: 10px;
+        text-align: center;
+        font-weight: 700;
+        font-family: "Microsoft Yahei", sans-serif;
+        font-size: 24px;
+        vertical-align: middle;
+        float: none;
+    }
+
+
+    .controls {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+        .htmlpage-cell {
+            width: 100%;
+            display: block;
+        }
+    }
+</style>
+
+<body onload="body_load();">
+    <div id="default-editor-page__placeholder" class="panel">
+        <link rel="stylesheet"
+            href="https://template-1253409072.cos.ap-guangzhou.myqcloud.com/vip-tpl/assets/css/plugins.css" />
+        <link rel="stylesheet"
+            href="https://template-1253409072.cos.ap-guangzhou.myqcloud.com/vip-tpl/assets/css/style.css" />
+        <section class="wrapper bg-gradient-primary">
+            <div class="container py-18 pt-md-14 pb-md-14">
+                <div class="htmlpage-row">
+                    <div class="htmlpage-cell">
+                        <div id="iut7y" class="c6485">基于ELFboard的远程监测系统
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-lg-9 col-xxl-7 mx-auto">
+                        <div class="htmlpage-row">
+                            <div class="htmlpage-cell">
+                                <div id="i54dy" class="c4166">温度/℃
+                                </div>
+                                <div id="temp" class="c4247">0
+                                </div>
+                            </div>
+                            <div class="htmlpage-cell">
+                                <div id="i8ajj" class="c4339">湿度
+                                </div>
+                                <div id="humi" class="c4420">0
+                                </div>
+                            </div>
+                            <div class="htmlpage-cell">
+                                <div id="in6oe" class="c4501">电压/V
+                                </div>
+                                <div id="volt" class="c4582">0
+                                </div>
+                            </div>
+                            <div class="htmlpage-cell">
+                                <div id="in60e" class="c4501">LED1
+                                </div>
+                                <div id="led1" class="c4582">关
+                                </div>
+                            </div>
+                            <div class="htmlpage-cell">
+                                <div id="in6ce" class="c4501">LED2
+                                </div>
+                                <div id="led2" class="c4582">关
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /column -->
+                </div>
+                <!-- /.row -->
+                <div class="d-flex justify-content-center">
+                    <span>
+                        <button id="led1_bt" class="btn btn-lg btn-primary rounded-pill mx-1" onclick="set_data('LEDSwitch')">LED1</button>
+                    </span>
+                    <span>
+                        <button id="led2_bt" class="btn btn-lg btn-primary rounded-pill mx-1" onclick="set_data('LEDSwitch2')">LED2</button>
+                    </span>
+                </div>
+                <!-- /div -->
+                <div class="htmlpage-row">
+                </div>
+                <div class="row mt-10">
+                    <div class="col-lg-8 mx-auto">
+                        <video id="videoElement" class="img-fluid" controls autoplay width="1024" height="576" muted>
+                            Your browser is too old which doesn't support HTML5 video.
+                        </video>
+                    </div>
+                    <!-- /column -->
+                </div>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <button onclick="flv_start()">开始</button>
+                    <button onclick="flv_pause()">停止</button>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+        </section>
+        <section class="wrapper bg-gradient-primary">
+        </section>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.min.js"></script>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.1.3/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var player = document.getElementById('videoElement');
+        if (flvjs.isSupported()) {
+            var flvPlayer = flvjs.createPlayer({
+                type: 'flv',
+                url: 'http://xxxx.xxxxx.xxxx/live?port=1935&app=myapp&stream=test',
+                "isLive": true,
+                hasAudio: false,
+                hasVideo: true,
+                //withCredentials: false,
+                //cors: true
+            }, {
+                enableWorker: true,	// 开启多线程
+                enableStashBuffer: false,
+                lazyLoad: false,
+                lazyLoadMaxDuration: 0,
+                lazyLoadRecoverDuration: 0,
+                deferLoadAfterSourceOpen: false,
+                fixAudioTimestampGap: true,
+                autoCleanupSourceBuffer: true,
+            });
+            flvPlayer.attachMediaElement(videoElement);
+            flvPlayer.load(); //加载
+            flv_start();
+        }
+        function flv_start() {
+            player.play();
+        }
+
+        function flv_pause() {
+            player.pause();
+        }
+    </script>
+    <script type="text/javascript">
+        let intervalId = null;
+
+        function set_data(led) {
+            let div_led;
+            let state;
+
+            clearInterval(intervalId);
+            intervalId = null;
+
+            if(led=='LEDSwitch')
+            {
+                div_led=document.getElementById('led1');
+            }else{
+                div_led=document.getElementById('led2');
+            }
+            if(div_led.textContent=='开')
+            {
+                state=0;
+                div_led.textContent = '关';
+            }else{
+                state=1;
+                div_led.textContent = '开';
+            }
+            $.ajax({
+                url: "/set_data",
+                type: "POST",
+                data: {
+                    name: led,
+                    state: state
+                },
+                cache: false,
+                dataType: "json",
+                success: function (message) {
+                    console.log(message);
+                }
+            });
+            intervalId = setInterval(timedFunction, 3000);
+        }
+
+        function body_load(){
+            intervalId = setInterval(timedFunction, 3000);
+            $.ajax({
+                url: '/get_data',
+                type: 'get',
+                dataType: 'JSON',
+                success: function (message) {
+                    console.log(message);
+                    var div1 = document.getElementById('temp');
+                    var div2 = document.getElementById('humi');
+                    var div3 = document.getElementById('volt');
+                    var div4 = document.getElementById('led1');
+                    var div5 = document.getElementById('led2');
+
+                    // 检查是否有错误
+                    if (message.status === 'error') {
+                        console.log('❌ IoT数据获取失败: ' + message.error);
+                        div1.textContent = '--';
+                        div2.textContent = '--';
+                        div3.textContent = '--';
+                        div4.textContent = '离线';
+                        div5.textContent = '离线';
+                        return;
+                    }
+
+                    div1.textContent = message['temp'] || '--';
+                    div2.textContent = message['humi'] || '--';
+                    div3.textContent = message['volt'] || '--';
+
+                    if(message['led1']==1){
+                        div4.textContent = '开';
+                    }else{
+                        div4.textContent = '关';
+                    }
+
+                    if(message['led2']==1){
+                        div5.textContent = '开';
+                    }else{
+                        div5.textContent = '关';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('❌ IoT数据获取失败: ' + error);
+                    var div1 = document.getElementById('temp');
+                    var div2 = document.getElementById('humi');
+                    var div3 = document.getElementById('volt');
+                    var div4 = document.getElementById('led1');
+                    var div5 = document.getElementById('led2');
+                    
+                    div1.textContent = '--';
+                    div2.textContent = '--';
+                    div3.textContent = '--';
+                    div4.textContent = '离线';
+                    div5.textContent = '离线';
+                }
+            })
+        }
+
+        function timedFunction() {
+            $.ajax({
+                url: '/get_data',
+                type: 'get',
+                dataType: 'JSON',
+                success: function (message) {
+                    console.log(message);
+                    var div1 = document.getElementById('temp');
+                    var div2 = document.getElementById('humi');
+                    var div3 = document.getElementById('volt');
+                    var div4 = document.getElementById('led1');
+                    var div5 = document.getElementById('led2');
+
+                    // 检查是否有错误
+                    if (message.status === 'error') {
+                        console.log('❌ IoT数据获取失败: ' + message.error);
+                        div1.textContent = '--';
+                        div2.textContent = '--';
+                        div3.textContent = '--';
+                        div4.textContent = '离线';
+                        div5.textContent = '离线';
+                        return;
+                    }
+
+                    div1.textContent = message['temp'] || '--';
+                    div2.textContent = message['humi'] || '--';
+                    div3.textContent = message['volt'] || '--';
+
+                    if(message['led1']==1){
+                        div4.textContent = '开';
+                    }else{
+                        div4.textContent = '关';
+                    }
+
+                    if(message['led2']==1){
+                        div5.textContent = '开';
+                    }else{
+                        div5.textContent = '关';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('❌ IoT数据获取失败: ' + error);
+                    var div1 = document.getElementById('temp');
+                    var div2 = document.getElementById('humi');
+                    var div3 = document.getElementById('volt');
+                    var div4 = document.getElementById('led1');
+                    var div5 = document.getElementById('led2');
+                    
+                    div1.textContent = '--';
+                    div2.textContent = '--';
+                    div3.textContent = '--';
+                    div4.textContent = '离线';
+                    div5.textContent = '离线';
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

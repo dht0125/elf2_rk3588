@@ -1,0 +1,7 @@
+Flask==2.3.3
+opencv-python==4.8.1.78
+numpy==1.24.3
+shared-memory-dict==0.7.2
+alibabacloud-tea-openapi==0.3.3
+alibabacloud-tea-util==0.3.11
+alibabacloud-openapi-util==0.2.1 
